@@ -2,9 +2,9 @@ const router = require("express").Router();
 const {
   models: { HireCart, Chefs, User, HiredChefs },
 } = require("../db");
-const { requireToken, isAdmin } = require("./gateKeeperMiddleware");
+const { requireToken } = require("./gateKeeperMiddleware");
 
-router.get("/", requireToken, isAdmin, async (req, res) => {
+router.get("/", requireToken, async (req, res) => {
   try {
     const user = await User.findByPk(req.headers.user);
 
@@ -41,7 +41,7 @@ router.get("/", requireToken, isAdmin, async (req, res) => {
   }
 });
 
-router.get("/hireCart", requireToken, isAdmin, async (req, res, next) => {
+router.get("/hireCart", requireToken, async (req, res, next) => {
   try {
     const user = await User.findByPk(req.headers.id);
     console.log("user", req.headers.id);
@@ -60,7 +60,7 @@ router.get("/hireCart", requireToken, isAdmin, async (req, res, next) => {
   }
 });
 
-router.post("/", requireToken, isAdmin, async (req, res) => {
+router.post("/", requireToken, async (req, res) => {
   try {
     const user = await User.findByPk(req.headers.user, {
       include: [{ model: HireCart }],
@@ -88,7 +88,7 @@ router.post("/", requireToken, isAdmin, async (req, res) => {
   }
 });
 
-router.delete("/:id", requireToken, isAdmin, async (req, res) => {
+router.delete("/:id", requireToken, async (req, res) => {
   try {
     const user = await User.findByPk(req.headers.user, {
       include: [{ model: HireCart }],
@@ -107,28 +107,28 @@ router.delete("/:id", requireToken, isAdmin, async (req, res) => {
   }
 });
 
-router.put("/:id", async (req, res) => {
+router.put("/:id", requireToken, async (req, res) => {
   try {
     const user = await User.findByPk(req.headers.user, {
-      include: [{ model: Order }],
+      include: [{ model: HireCart }],
     });
 
-    const pendingOrder = user.orders.find((order) => order.status === "Pending");
+    const pendingHiring = user.hireCarts.find((hireCart) => hireCart.status === "Pending");
 
-    const cartItem = await OrderItem.findOne({
+    const cartHiring = await HireCart.findOne({
       where: {
-        productId: req.params.id,
-        orderId: pendingOrder.id,
+        chefId: req.params.id,
+        hireCartId: pendingHiring.id,
       },
     });
 
-    await cartItem.update({
-      qty: req.body.qty,
-    });
+    // await cartItem.update({
+    //   qty: req.body.qty,
+    // });
 
-    const product = await Product.findByPk(req.params.id);
+    const chef = await Chefs.findByPk(req.params.id);
 
-    res.send({ product, cart: pendingOrder });
+    res.send({ chef, cart: pendingHiring });
   } catch (err) {
     console.error(err);
   }
