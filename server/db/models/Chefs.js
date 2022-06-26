@@ -11,7 +11,7 @@ const Chefs = db.define("chef", {
     allowNull: false,
   },
   pricePerHour: {
-    type: Sequelize.FLOAT,
+    type: Sequelize.STRING,
     allowNull: false,
     validate: {
       min: 0,
@@ -51,12 +51,12 @@ const Chefs = db.define("chef", {
   },
   email: {
     type: Sequelize.STRING,
-    // allowNull: false,
     validate: {
       isEmail: true,
     },
     unique: true,
   },
+
 });
 
 module.exports = Chefs;
