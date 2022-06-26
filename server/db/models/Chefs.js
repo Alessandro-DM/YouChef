@@ -11,7 +11,7 @@ const Chefs = db.define("chef", {
     allowNull: false,
   },
   pricePerHour: {
-    type: Sequelize.STRING,
+    type: Sequelize.FLOAT,
     allowNull: false,
     validate: {
       min: 0,
