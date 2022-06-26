@@ -1,56 +1,64 @@
 /* eslint-disable no-case-declarations */
 import axios from "axios";
 
-const ADD_TO_CART = "ADD_TO_CART";
-const REMOVE_FROM_CART = "REMOVE_FROM_CART";
+const ADD_TO_HIRECART = "ADD_TO_HIRECART";
+const REMOVE_FROM_HIRECART = "REMOVE_FROM_HIRECART";
 const LOAD_FROM_USER = "LOAD_FROM_USER";
-const EDIT_CART = "EDIT_CART";
-const GET_ALL_ORDERS = "GET_ALL_ORDERS";
+const EDIT_HIRECART = "EDIT_HIRECART";
+const GET_ALL_HIRECARTS = "GET_ALL_HIRECARTS";
 
-const _loadFromUser = (cart) => ({
+const _loadFromUser = (hireCart) => ({
   type: LOAD_FROM_USER,
-  cart,
+  hireCart,
 });
 
-const _addToCart = (product, qty) => ({
-  type: ADD_TO_CART,
+const _addToHireCart = (chef) => ({
+  type: ADD_TO_HIRECART,
   product: {
-    id: product.id,
-    name: product.name,
-    imageURL: product.imageURL,
-    price: product.price,
-    inventory: product.inventory,
-    qty,
+    id: chef.id,
+    firstName: chef.firstName,
+    lastName: chef.lastName,
+    pricePerHour: chef.pricePerHour,
+    foodType: chef.foodType,
+    ratings: chef.ratings,
+    city: chef.city,
+    address: chef.address,
+    state: chef.state,
+    email: chef.email
   },
 });
 
-const _removeFromCart = (id) => ({
-  type: REMOVE_FROM_CART,
+const _removeFromHireCart = (id) => ({
+  type: REMOVE_FROM_HIRECART,
   id,
 });
 
-const _editCart = (product, qty) => ({
-  type: EDIT_CART,
-  product: {
-    id: product.id,
-    name: product.name,
-    imageURL: product.imageURL,
-    price: product.price,
-    inventory: product.inventory,
-    qty,
+const _editHireCart = (chef) => ({
+  type: EDIT_HIRECART,
+  chef: {
+    id: chef.id,
+    firstName: chef.firstName,
+    lastName: chef.lastName,
+    pricePerHour: chef.pricePerHour,
+    foodType: chef.foodType,
+    ratings: chef.ratings,
+    city: chef.city,
+    address: chef.address,
+    state: chef.state,
+    email: chef.email
   },
 });
 
-const _getAllOrders = (orders) => ({
-  type: GET_ALL_ORDERS,
-  orders,
+const _getAllHireCarts = (hireCarts) => ({
+  type: GET_ALL_HIRECARTS,
+  hireCarts,
 });
 
 export const loadFromUser = () => {
   return async (dispatch, getState) => {
     const user = getState().auth.id;
     const token = localStorage.getItem("token");
-    const { data } = await axios.get("/api/cart", {
+    const { data } = await axios.get("/api/hireCart", {
       headers: {
         user,
         authorization: token,
@@ -61,14 +69,14 @@ export const loadFromUser = () => {
   };
 };
 
-export const addToCart = (product, qty) => {
+export const addToHireCart = (chef) => {
   return async (dispatch, getState) => {
     if (getState().auth.id) {
       const user = getState().auth.id;
 
       const { data } = await axios.post(
-        "/api/cart/",
-        { product, qty },
+        "/api/hireCart/",
+        { chef },
         {
           headers: {
             user,
@@ -76,24 +84,24 @@ export const addToCart = (product, qty) => {
         }
       );
 
-      dispatch(_addToCart(data.product, qty));
+      dispatch(_addToHireCart(data.chef));
     } else {
-      const { data } = await axios.get(`/api/products/${product.id}`);
+      const { data } = await axios.get(`/api/chefs/${chef.id}`);
 
-      dispatch(_addToCart(data, qty));
-      localStorage.setItem("cart", JSON.stringify(getState().cart));
+      dispatch(_addToHireCart(data));
+      localStorage.setItem("hireCart", JSON.stringify(getState().hireCart));
     }
   };
 };
 
-export const editCart = (product, qty) => {
+export const editHireCart = (chef) => {
   return async (dispatch, getState) => {
     if (getState().auth.id) {
       const user = getState().auth.id;
 
       const { data } = await axios.put(
-        `/api/cart/${product.id}`,
-        { product, qty },
+        `/api/hireCart/${chef.id}`,
+        { chef },
         {
           headers: {
             user,
@@ -101,12 +109,12 @@ export const editCart = (product, qty) => {
         }
       );
 
-      dispatch(_editCart(data.product, qty));
+      dispatch(_editHireCart(data.chef));
     } else {
-      const { data } = await axios.get(`/api/products/${product.id}`);
+      const { data } = await axios.get(`/api/chefs/${chef.id}`);
 
-      dispatch(_editCart(data, qty));
-      localStorage.setItem("cart", JSON.stringify(getState().cart));
+      dispatch(_editHireCart(data));
+      localStorage.setItem("hireCart", JSON.stringify(getState().hireCart));
     }
   };
 };
@@ -114,70 +122,68 @@ export const editCart = (product, qty) => {
 export const removeFromCart = (id) => {
   return async (dispatch, getState) => {
     if (getState().auth.id > 0) {
-      await axios.delete(`/api/cart/${id}`, {
+      await axios.delete(`/api/hireCart/${id}`, {
         headers: {
           user: getState().auth.id,
         },
       });
-      dispatch(_removeFromCart(id));
+      dispatch(_removeFromHireCart(id));
     } else {
-      dispatch(_removeFromCart(id));
+      dispatch(_removeFromHireCart(id));
 
-      localStorage.setItem("cart", JSON.stringify(getState().cart));
+      localStorage.setItem("hireCart", JSON.stringify(getState().hireCart));
     }
   };
 };
 
 
-export const getAllOrders = () => {
+export const getAllHireCarts = () => {
   return async (dispatch, getState) => {
     try {
       const token = localStorage.getItem("token");
-      // const id = getState().auth.id;
-      // console.log(id);
-      const { data } = await axios.get("/api/cart/orders", {
+      const { data } = await axios.get("/api/hireCart/hireCarts", {
         headers: {
           id: getState().auth.id,
           authorization: token,
         },
       });
-      dispatch(_getAllOrders(data));
+      dispatch(_getAllHireCarts(data));
     } catch (err) {
       console.error(err);
     }
   };
 };
 
-const cartLocalStorage = localStorage.getItem("cart") && localStorage.getItem("cart") !== "undefined" ? JSON.parse(localStorage.getItem("cart")) : [];
+const cartLocalStorage = localStorage.getItem("hireCart") && localStorage.getItem("hireCart") !== "undefined" ? JSON.parse(localStorage.getItem("hireCart")) : [];
 
 
 const initialState = cartLocalStorage;
 
 export const hireCartReducer = (state = initialState, action) => {
   switch (action.type) {
-    case ADD_TO_CART:
-      const existingItem = state.find((item) => item.id === action.product.id);
+    case ADD_TO_HIRECART:
+      const existingItem = state.find((item) => item.id === action.chef.id);
 
       if (existingItem) {
         return state.map((item) =>
-          item.id === existingItem.id ? action.product : item
+          item.id === existingItem.id ? action.chef : item
         );
       }
 
-      return [...state, action.product];
+      return [...state, action.chef];
 
-    case REMOVE_FROM_CART:
+    case REMOVE_FROM_HIRECART:
       return state.filter((item) => item.id !== action.id);
 
     case LOAD_FROM_USER:
       return action.cart;
 
-    case EDIT_CART:
-      const existsInCart = state.find((item) => item.id === action.product.id);
-      return state.map((item) => (item.id === existsInCart.id ? action.product : item));
+    case EDIT_HIRECART:
+      const existsInCart = state.find((item) => item.id === action.chef.id);
+      return state.map((item) => (item.id === existsInCart.id ? action.chef : item));
 
-    case GET_ALL_ORDERS:
-      return action.orders;
+    case GET_ALL_HIRECARTS:
+      return action.hireCarts;
 
     default:
       return state;
