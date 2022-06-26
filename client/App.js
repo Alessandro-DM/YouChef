@@ -1,6 +1,6 @@
-import React from 'react'
-import Navbar from './components/Navbar'
-import Routes from './Routes'
+import React from "react";
+import Navbar from "./components/Navbar";
+import Routes from "./Routes";
 import { ThemeProvider } from "@material-ui/core";
 import theme from "./theme";
 
@@ -14,7 +14,7 @@ const App = () => {
       </div>
 
     </ThemeProvider>
-  )
-}
+  );
+};
 
-export default App
+export default App;

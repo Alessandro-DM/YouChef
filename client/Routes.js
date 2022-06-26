@@ -5,6 +5,8 @@ import { Login } from './components/LoginForm.js';
 import { Signup } from './components/SignUpForm.js';
 import Home from './components/Home';
 import {me} from './store'
+import GeoLocation from './components/GeoLocation'
+import SingleChef from './components/SingleChef';
 
 /**
  * COMPONENT
@@ -26,7 +28,8 @@ class Routes extends Component {
           </Switch>
         ) : (
           <Switch>
-            <Route exact path='/' component={ Home } />
+            <Route exact path='/home' component={ Home } />
+            <Route exact path="/geoLoc" component={GeoLocation} />
             <Route exact path="/login" component={Login} />
             <Route exact path="/signup" component={Signup} />
           </Switch>
