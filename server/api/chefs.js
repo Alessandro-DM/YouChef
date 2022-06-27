@@ -2,7 +2,7 @@ const router = require("express").Router();
 const { models: { Chefs, User } } = require("../db");
 const { requireToken, isAdmin } = require('../api/gateKeepingMiddleware');
 
-router.get("/", requireToken, async (req, res, next) => {
+router.get("/", async (req, res, next) => {
   try {
     const chefs = await Chefs.findAll();
     res.send(chefs);
@@ -23,7 +23,7 @@ router.post("/", requireToken, isAdmin, async (req, res, next) => {
   }
 });
 
-router.get("/:id", requireToken, async (req, res, next) => {
+router.get("/:id", async (req, res, next) => {
   try {
     const chef = await Chefs.findByPk(`${req.params.id}`);
     res.send(chef);
