@@ -16,7 +16,7 @@ const theme = createTheme({
             variant: "body2",
           },
           style: {
-            fontSize: 11,
+            fontSize: 1,
           },
         },
         {
@@ -40,7 +40,8 @@ const theme = createTheme({
   },
   palette: {
     primary: {
-      main: brown[700],
+      main: brown[600],
+      contrastText: "#FFFFFF",
     },
 
     secondary: {
@@ -55,7 +56,7 @@ theme.overrides = {
     root: {
       borderRadius: 15,
       textTransform: "none",
-      fontSize: 12,
+      fontSize: 15,
       fontFamily: "Roboto",
     },
     containedPrimary: {
@@ -91,13 +92,18 @@ export const useChefStyles = makeStyles((theme) => ({
     height: "auto",
   },
   p: {
-    color: "black",
+    color: "white",
+    fontSize: 12,
+    fontFamily: "Roboto",
+  },
+  h3: {
+    color: "white",
     fontSize: 20,
     fontFamily: "Roboto",
   },
   h4: {
-    color: "#0288d1",
-    fontSize: 20,
+    color: "black",
+    fontSize: 40,
     fontFamily: "Roboto",
   },
 }));

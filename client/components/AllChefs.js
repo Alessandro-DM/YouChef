@@ -34,9 +34,9 @@ function AllChefs() {
                     <Grid item xs={12} sm={6} md={4} lg={3} key={chef.id}>
                       <SingleChefCard chef={chef} />
                       <Box style={{ padding: 1 }} />
-                      <Button variant="contained" color="primary" href={`/chefs/${chef.id}`}>
+                      {/* <Button variant="contained" color="primary" href={`/chefs/${chef.id}`}>
                         Learn more about this Chef
-                      </Button>
+                      </Button> */}
                     </Grid>
                   );
                 })
@@ -45,9 +45,9 @@ function AllChefs() {
                   <Grid item xs={12} sm={6} md={4} lg={3} key={chef.id}>
                     <SingleChefCard chef={chef} />
                     <Box style={{ padding: 1 }} />
-                    <Button variant="contained" color="primary" href={`/chefs/${chef.id}`}>
+                    {/* <Button variant="contained" color="primary" href={`/chefs/${chef.id}`}>
                       Learn more about this Chef
-                    </Button>
+                    </Button> */}
                   </Grid>
                 );
               })}
