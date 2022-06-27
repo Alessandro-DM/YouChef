@@ -54,7 +54,7 @@ const DropDownMenu = ({ handleClick, isLoggedIn, isAdmin, classes }) => {
                   handleClick();
                   handleClose();
                 }}
-                to="/products"
+                to="/chefs"
               >
                 Log Out
               </Link>

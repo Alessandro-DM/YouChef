@@ -1,41 +1,51 @@
-import React from 'react'
-import { connect } from 'react-redux';
-import { fetchChef } from '../store/singleChef';
-import { Link } from 'react-router-dom';
+import React, { useEffect, useState } from "react";
+import { fetchChef } from "../store/singleChef";
+import { addToHireCart } from "../store/hireCart";
+import { useDispatch, useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
+import { Button, Typography, Card, CardMedia, CardContent, CardHeader, CardActions, Tooltip, IconButton, CssBaseline, Container } from "@material-ui/core";
+import { useChefStyles } from "../theme";
+import ShoppingCartOutlinedIcon from "@material-ui/icons/ShoppingCartOutlined";
 
-class SingleChef extends React.Component {
-  componentDidMount() {
-  this.props.fetchChef(this.props.match.params.id);
-  }
+function SingleChef(props) {
+  const history = useHistory();
+  const chef = useSelector((state) => state.singleChef);
+  const dispatch = useDispatch();
 
-  handleChange(event) {
-    this.setState({
-      [event.target.name]: event.target.value
-    });
-  }
+  useEffect(() => {
+    const { id } = props.match.params;
+    dispatch(fetchChef(id));
+  }, []);
 
-  render () {
-    const chefDetails = this.props.singleChef;
-    return (
-        <div>
-            <h1>Chef</h1>
-            <ul>
-              <li>Name: {chefDetails.name}</li>
-              <li>Food Type: {chefDetails.foodType}</li>
-              <li>Rating: {chefDetails.rating}</li>
-              <img src={chefDetails.imageUrl} />
-            </ul>
-        </div>
-    )
-  }
+  const handleAddToHireCart = () => {
+    dispatch(addToHireCart(chef));
+    history.push("/chefs");
+  };
+
+  const classes = useChefStyles();
+  const { firstName, lastName, username, pricePerHour, email } = chef;
+  return (
+    <Container maxWidth="lg">
+      <Card xs={12} md={6} lg={3} elevation={3} style={{ display: "flex", flexDirection: "column", justifyContent: "space-evenly", height: "auto", background: "linear-gradient(to right top, pink, white, orange)" }}>
+        <CardHeader align="center" title={<Typography className={classes.h4}>{name}</Typography>} />
+        {/* <CardMedia component="img" alt="img of cookie" image={imageURL} title={name} className={classes.media} /> */}
+        <CardContent>
+        <Typography className={classes.p}>{firstName}</Typography>
+        <Typography className={classes.p}>{lastName}</Typography>
+        <Typography className={classes.p}>{username}</Typography>
+        <Typography className={classes.p}>{pricePerHour}</Typography>
+        <Typography className={classes.p}>${email}</Typography>
+      </CardContent>
+        <CardActions>
+          <Tooltip title="Add to cart">
+            <IconButton aria-label="Add to cart" onClick={handleAddToHireCart}>
+              <ShoppingCartOutlinedIcon />
+            </IconButton>
+          </Tooltip>
+        </CardActions>
+      </Card>
+    </Container>
+  );
 }
 
-const mapStateToProps = (state) => ({
-    singleChef: state.singleChef
-})
-
-const mapDispatchToProps = (dispatch) => ({
-    fetchChef: (id) => dispatch(fetchChef(id)),
-})
-
-export default connect(mapStateToProps, mapDispatchToProps)(SingleChef);
+export default SingleChef;
