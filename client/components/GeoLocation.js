@@ -16,7 +16,7 @@
 //         setStatus(null);
 //         setLat(position.coords.latitude);
 //         setLng(position.coords.longitude);
-//         Geocode.setApiKey(API_KEY);
+//         Geocode.setApiKey(process.env.API_KEY);
 //         Geocode.setLanguage("en");
 //         Geocode.setLocationType("ROOFTOP");
 //         Geocode.enableDebug();
