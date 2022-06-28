@@ -20,7 +20,7 @@ const DropDownMenu = ({ handleClick, isLoggedIn, isAdmin, classes }) => {
       <Menu id="fade-menu" MenuListProps={{ "aria-labelledby": "fade-button" }} anchorEl={anchorEl} open={open} onClose={handleClose} TransitionComponent={Fade}>
       <div>
           <MenuItem>
-            <Link to="/home" onClick={handleClose}>
+            <Link to="/" onClick={handleClose}>
               Home
             </Link>
           </MenuItem>
