@@ -75,11 +75,11 @@ export default function SideSwipeBar({ setFilter }) {
     <div>
       {
         <React.Fragment>
-          <Button variant="contained" color="primary" onClick={toggleDrawer("right", true)}>
-            Pick your type of food!
+          <Button variant="contained" color="primary" onClick={toggleDrawer("left", true)}>
+            Chefs!
           </Button>
-          <SwipeableDrawer anchor={"right"} open={state["right"]} onClose={toggleDrawer("right", false)} onOpen={toggleDrawer("right", true)}>
-            {list("right")}
+          <SwipeableDrawer anchor={"left"} open={state["left"]} onClose={toggleDrawer("left", false)} onOpen={toggleDrawer("left", true)}>
+            {list("left")}
           </SwipeableDrawer>
         </React.Fragment>
       }

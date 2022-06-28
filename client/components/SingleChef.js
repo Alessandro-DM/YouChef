@@ -23,20 +23,18 @@ function SingleChef(props) {
   };
 
   const classes = useChefStyles();
-  const { firstName, lastName, foodType, address, city, state, pricePerHour, ratings, email } = chef;
+  const { firstName, lastName, username, pricePerHour, email } = chef;
   return (
     <Container maxWidth="lg">
-      <Card xs={12} md={6} lg={3} elevation={3} style={{ display: "flex", flexDirection: "column", justifyContent: "space-evenly", height: "auto", background: "#D7A98C" }}>
-        <CardHeader align="center" title={<Typography className={classes.h4}>{firstName + ' ' + lastName}</Typography>} />
+      <Card xs={12} md={6} lg={3} elevation={3} style={{ display: "flex", flexDirection: "column", justifyContent: "space-evenly", height: "auto", background: "linear-gradient(to right top, pink, white, orange)" }}>
+        <CardHeader align="center" title={<Typography className={classes.h4}>{name}</Typography>} />
         {/* <CardMedia component="img" alt="img of cookie" image={imageURL} title={name} className={classes.media} /> */}
         <CardContent>
-        <Typography className={classes.p}>FoodType: {foodType}</Typography>
-        <Typography className={classes.p}>Price/Hour: ${pricePerHour}</Typography>
-        <Typography className={classes.p}>Ratings (0 to 5): {ratings}</Typography>
-        <Typography className={classes.p}>Address: {address}</Typography>
-        <Typography className={classes.p}>City: {city}</Typography>
-        <Typography className={classes.p}>State: {state}</Typography>
-        <Typography className={classes.p}>Email: {email}</Typography>
+        <Typography className={classes.p}>{firstName}</Typography>
+        <Typography className={classes.p}>{lastName}</Typography>
+        <Typography className={classes.p}>{username}</Typography>
+        <Typography className={classes.p}>{pricePerHour}</Typography>
+        <Typography className={classes.p}>${email}</Typography>
       </CardContent>
         <CardActions>
           <Tooltip title="Add to cart">
