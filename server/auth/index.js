@@ -16,7 +16,7 @@ router.post("/signup", async (req, res, next) => {
   try {
     const { username, firstName, lastName, password, email } = req.body;
     const user = await User.create({ username, firstName, lastName, password, email });
-    console.log(user,'---------')
+    console.log(token,'---------')
 
     res.send({ token: await user.generateToken() });
   } catch (err) {

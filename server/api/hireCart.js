@@ -2,7 +2,7 @@ const router = require("express").Router();
 const {
   models: { HireCart, Chefs, User, HiredChefs },
 } = require("../db");
-const { requireToken } = require("./gateKeeperMiddleware");
+const { requireToken } = require("./gateKeepingMiddleware");
 
 router.get("/", requireToken, async (req, res) => {
   try {
@@ -114,17 +114,6 @@ router.put("/:id", requireToken, async (req, res) => {
     });
 
     const pendingHiring = user.hireCarts.find((hireCart) => hireCart.status === "Pending");
-
-    const cartHiring = await HireCart.findOne({
-      where: {
-        chefId: req.params.id,
-        hireCartId: pendingHiring.id,
-      },
-    });
-
-    // await cartItem.update({
-    //   qty: req.body.qty,
-    // });
 
     const chef = await Chefs.findByPk(req.params.id);
 

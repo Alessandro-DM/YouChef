@@ -14,7 +14,7 @@ const _loadFromUser = (hireCart) => ({
 
 const _addToHireCart = (chef) => ({
   type: ADD_TO_HIRECART,
-  product: {
+  chef: {
     id: chef.id,
     firstName: chef.firstName,
     lastName: chef.lastName,
@@ -162,11 +162,12 @@ const initialState = cartLocalStorage;
 export const hireCartReducer = (state = initialState, action) => {
   switch (action.type) {
     case ADD_TO_HIRECART:
-      const existingItem = state.find((item) => item.id === action.chef.id);
+      console.log(state,'=========')
+      const currentChef = state.find((item) => item.id === action.chef.id);
 
-      if (existingItem) {
+      if (currentChef) {
         return state.map((item) =>
-          item.id === existingItem.id ? action.chef : item
+          item.id === currentChef.id ? action.chef : item
         );
       }
 
