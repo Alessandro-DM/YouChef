@@ -3,7 +3,7 @@ module.exports = router;
 
 router.use("/users", require("./users"));
 router.use("/chefs", require("./chefs"));
-router.use("/hireCart", require("./hireCart"));
+// router.use("/hireCart", require("./hireCart"));
 // router.use("/checkout", require("./checkout"));
 // router.use("/payment", require("./payment"));
 
